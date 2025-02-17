@@ -11,9 +11,6 @@ st.set_page_config(page_title="Tickets de soporte", page_icon="🎫")
 st.title("🎫 Tickets de soporte")
 st.write(
     """
-    Esta aplicación muestra cómo construir una herramienta interna en Streamlit. Aquí, 
-    estamos implementando un flujo de trabajo para tickets de soporte. El usuario puede 
-    crear un ticket, editar los tickets existentes y ver algunas estadísticas.
     """
 )
 

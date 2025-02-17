@@ -18,6 +18,8 @@ st.title("🎫 Tickets de soporte")
 st.write(
     """
     Esta aplicación permite crear, editar y analizar tickets de soporte.
+    Los tickets se almacenan temporalmente en la sesión de Streamlit y
+    se envían a n8n para su persistencia en la base de datos de Supabase.
     """
 )
 
@@ -91,7 +93,9 @@ if enviado:
     # ----------------------
     # Send to n8n Webhook
     # ----------------------
+    # Replace with your actual n8n Production Webhook URL
     webhook_url = "https://n8n.yourdomain.com/webhook/my-bug-ticket-webhook"
+    # If using Basic Auth, set your credentials here
     username = "myWebhookUser"
     password = "superSecret123"
 
@@ -114,7 +118,7 @@ if enviado:
     try:
         response = requests.post(webhook_url, headers=headers, json=payload)
         if response.status_code == 200:
-            st.success("Ticket guardado en la base de datos (n8n -> Supabase).")
+            st.success("Ticket guardado en la base de datos (n8n → Supabase).")
         else:
             st.error(f"Error al enviar a n8n: {response.text}")
     except Exception as e:

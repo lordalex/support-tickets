@@ -18,8 +18,6 @@ st.title("🎫 Tickets de soporte")
 st.write(
     """
     Esta aplicación permite crear, editar y analizar tickets de soporte.
-    Los tickets se almacenan temporalmente en la sesión y se envían a n8n
-    para persistencia en Supabase.
     """
 )
 

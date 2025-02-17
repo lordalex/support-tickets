@@ -17,9 +17,8 @@ st.write(
     """
 )
 
-# Crear un DataFrame de Pandas con tickets existentes en español.
+# Crear o actualizar el DataFrame de tickets en session_state.
 if "df" not in st.session_state:
-
     # Fijar la semilla para reproducibilidad.
     np.random.seed(42)
 
@@ -59,14 +58,26 @@ if "df" not in st.session_state:
         ],
     }
     df = pd.DataFrame(data)
-
-    # Guardar el DataFrame en session_state para que persista entre actualizaciones.
     st.session_state.df = df
+else:
+    # Si el DataFrame ya existe, verificar y renombrar columnas si es necesario.
+    df = st.session_state.df
+    if "Status" in df.columns:
+        df = df.rename(columns={
+            "Status": "Estado",
+            "Priority": "Prioridad",
+            "Date Submitted": "Fecha de envío",
+            "Issue": "Problema"
+        })
+        st.session_state.df = df
 
+# (Opcional) Botón para resetear la sesión si deseas comenzar de nuevo.
+if st.button("Resetear sesión"):
+    st.session_state.clear()
+    st.experimental_rerun()
 
 # Sección para agregar un ticket.
 st.header("Agregar ticket")
-
 with st.form("formulario_agregar_ticket"):
     problema = st.text_area("Describa el problema")
     prioridad = st.selectbox("Prioridad", ["Alta", "Media", "Baja"])
@@ -87,8 +98,6 @@ if enviado:
             }
         ]
     )
-
-    # Mostrar un mensaje de éxito con los detalles del ticket.
     st.write("¡Ticket enviado! Detalles del ticket:")
     st.dataframe(df_nuevo, use_container_width=True, hide_index=True)
     st.session_state.df = pd.concat([df_nuevo, st.session_state.df], axis=0)
@@ -96,7 +105,6 @@ if enviado:
 # Sección para ver y editar tickets existentes.
 st.header("Tickets existentes")
 st.write(f"Número de tickets: `{len(st.session_state.df)}`")
-
 st.info(
     "Puede editar los tickets haciendo doble clic en una celda. Observe cómo los gráficos "
     "actualizan automáticamente. También puede ordenar la tabla haciendo clic en los encabezados "
@@ -104,7 +112,6 @@ st.info(
     icon="✍️",
 )
 
-# Mostrar el DataFrame con st.data_editor para permitir la edición de celdas.
 edited_df = st.data_editor(
     st.session_state.df,
     use_container_width=True,
@@ -123,13 +130,11 @@ edited_df = st.data_editor(
             required=True,
         ),
     },
-    # Deshabilitar la edición de las columnas ID y Fecha de envío.
     disabled=["ID", "Fecha de envío"],
 )
 
 # Sección para mostrar estadísticas y gráficos.
 st.header("Estadísticas")
-
 col1, col2, col3 = st.columns(3)
 num_tickets_abiertos = len(st.session_state.df[st.session_state.df.Estado == "Abierto"])
 col1.metric(label="Tickets abiertos", value=num_tickets_abiertos, delta=10)

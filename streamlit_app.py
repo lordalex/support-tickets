@@ -94,10 +94,10 @@ if enviado:
     # Send to n8n Webhook
     # ----------------------
     # Replace with your actual n8n Production Webhook URL
-    webhook_url = "https://n8n.yourdomain.com/webhook/my-bug-ticket-webhook"
+    webhook_url = "https://n8n.lordalexand.dev/webhook/bug-ticket-webhook"
     # If using Basic Auth, set your credentials here
-    username = "myWebhookUser"
-    password = "superSecret123"
+    username = "tintavioleta_8n8"
+    password = "XBM8KM6TsGE@qpjBvDDAT"
 
     auth_string = f"{username}:{password}"
     auth_bytes = auth_string.encode("utf-8")

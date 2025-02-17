@@ -69,7 +69,7 @@ if enviado:
         last_ticket_number = int(max(st.session_state.df["ID"]).split("-")[1])
 
     new_id = f"TICKET-{last_ticket_number + 1}"
-    today_str = datetime.datetime.now().strftime("%d-%m-%Y")
+    today_str = datetime.datetime.now().strftime("%Y-%m-%d")
 
     df_new = pd.DataFrame(
         [
